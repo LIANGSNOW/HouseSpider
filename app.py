@@ -4,28 +4,55 @@ import requests
 import re
 from bs4 import BeautifulSoup
 import pandas as pd
+import json
 from multiprocessing import Pool
 
 from fake_useragent import UserAgent
 ua = UserAgent()
 headers1 = {'User-Agent':'ua.ramdom'}
 
-def generate_allurl(user_in_nub):
-    url = "https://sh.lianjia.com/ershoufang/pg{}"
-    for url_next in range(1, int(user_in_nub)):
-        yield url.format(url_next)
+area_list=['pudong','minhang','baoshan','xuhui','putuo','putuo','changning','songjiang','jiading','huangpu','jingan','zhabei','hongkou']
+price_list=['p1','p2','p3','p4','p5','p6','p7']
+
+result = []
 
 
-def main():
-    user_in_nub = input('输入生成页数：')
-    for i in generate_allurl(user_in_nub):
-        print(i)
-        urls = get_allurl(i)
-        for url in urls:
-            open_url(url)
+def generate_allurl(area,price):
+    #获取所有需要扒取的数据的url
+    url = "https://sh.lianjia.com/ershoufang/{}/pg{}{}"
+
+    for url_next in range(1, int(100)):
+        yield url.format(area,url_next,price),url_next
+
+
+def main(area):
+    #启动函数
+
+    for price in price_list:
+        singal = True
+        for page_url,i in generate_allurl(area,price):
+
+            if singal:
+                urls = get_allurl(page_url)
+                print(page_url)
+            else :
+                i += 1
+                if i == 100:
+                    singal = True
+                else:
+                    continue
+
+            if len(urls) == 0:
+                singal = False
+
+            else:
+                for url in urls:
+                    open_url(url)
+
 
 
 def get_allurl(generate_allurl):
+    #解析所有url
     get_url = requests.get(generate_allurl,'lxml',headers = headers1)
     if get_url.status_code == 200:
         # print(get_url.text)
@@ -33,7 +60,8 @@ def get_allurl(generate_allurl):
         re_set = re.compile('<div.*?class="item".*?data-houseid=".*?">.*?<a.*?class="img.*?".*?href="(.*?)"')
 
         re_get = re.findall(re_set, get_url.text)
-        print(re_get)
+        if re_get != []:
+            print(re_get)
         return re_get
 
 def open_url(re_get):
@@ -67,8 +95,14 @@ def open_url(re_get):
 
 
         print(info)
+        result.append(info)
         # pandas_to_xlsx(info)
         return info
+
+
+def write_to_text(list):
+    with open('链接二手房.json','a',encoding='utf-8') as f:
+        f.write(json.dumps(list,ensure_ascii=False) + '\n')
 
 
 def pandas_to_xlsx(info):               #储存到xlsx
@@ -83,13 +117,15 @@ if __name__ == '__main__':
     # pool = Pool()
     # pool.map(main,[])
 
-    main()
+    main( area = area_list[0])
+    # for i in generate_allurl():
+    #     print(i)
 
 
-
-    # urls = get_allurl('https://sh.lianjia.com/ershoufang/pg1')
-    # for url in urls:
-    #     open_url(urls[1])
+    # urls = get_allurl('https://sh.lianjia.com/ershoufang/pudong/pg37p1')
+    # if len(urls) != 0:
+    #     for url in urls:
+    #         open_url(url)
     # get_url = requests.get('https://sh.lianjia.com/ershoufang/pg1', 'lxml', headers=headers1)
     # print(get_url)
     # re_set = re.compile('<li.*?class="clear LOGCLICKDAT">.*?<a.*?class="noresultRecommend img.*?".*?href="(.*?)"')
