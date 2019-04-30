@@ -1,6 +1,7 @@
 from flask import request,render_template,Flask
 from settting import *
-
+import pandas as pd
+import json
 
 app = Flask(__name__)
 
@@ -16,7 +17,13 @@ def search_page():
        return render_template("main.html")
 
     else:
-        return render_template("main.html")
+        area = request.form.get('area')
+        file_name = area+'.json'
+        if os.path.exists(file_name):
+            with open(APP_DATA+file_name,'rb') as f:
+                data = f.read()
+                print(data)
+        return json.dumps(data)
 
 
 
