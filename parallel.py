@@ -10,8 +10,8 @@ ua = UserAgent()
 headers1 = {'User-Agent':'ua.ramdom'}
 
 area_list=['pudong','minhang','baoshan','xuhui','putuo', 'changning', 'songjiang','jiading','huangpu','jingan','zhabei','hongkou']
-# price_list=['p1','p2','p3','p4','p5','p6','p7']
-price_list=['p2']
+price_list=['p1','p2','p3','p4','p5','p6','p7']
+# price_list=['p2']
 
 def generate_allurl(area, price):
     #获取所有需要扒取的数据的url

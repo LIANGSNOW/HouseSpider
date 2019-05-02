@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>spider man!</title>
+</head>
+<body>
+    <h1>Have fun !</h1>
+    <div>
+        搜索均为大于等于，不填则代表此条目的所有
+        <form action="" enctype='multipart/form-data' method='POST'>
+             <select name="district" >
+             <option value="baoshan">宝山</option>
+              <option value="changning">长宁</option>
+              <option value="huangpu">黄浦</option>
+              <option value="jiading">嘉定</option>
+              <option value="jinshan">金山</option>
+              <option value="pudong">浦东</option>
+              <option value="putuo">普陀</option>
+             <option value="songjiang">松江</option>
+             <option value="xuhui">徐汇</option>
+             <option value="zhabei">闸北</option>
+            </select>
+            总价<input type="text" name = "total_price" value={{total_price_search}}>
+            单价(万/平米)<input type="text" name = "price" value={{price_search}}>
+            面积<input type="text" name = "area" value={{area_search}}>
+            建筑时间(时间未知的为1000年)<input type="text" name = "time" value={{time_search}}>
+
+
+            <input type="submit" value="submit">
+        </form>
+    </div>
+    <div>
+        <h1> {{district_search}}</h1>
+        <table border="1">
+            <tr>
+                <th>title</th>
+                <th>total_price</th>
+                <th>price</th>
+                <th>area</th>
+                <th>time</th>
+                <th>community</th>
+                <th>neighbours</th>
+                <th>floor</th>
+            </tr>
+             {% for i in index %}
+             <tr>
+                 <td>{{title[i]}}</td>
+                 <td>{{total_price[i]}}</td>
+                 <td>{{price[i]}}</td>
+                 <td>{{area[i]}}</td>
+                 <td>{{time[i]}}</td>
+                 <td>{{community[i]}}</td>
+                 <td>{{neighbours[i]}}</td>
+                 <td>{{floor[i]}}</td>
+             </tr>
+             {% endfor %}
+
+            </table>
+    </div>
+</body>
+</html>
