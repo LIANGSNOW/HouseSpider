@@ -25,7 +25,7 @@
             单价(万/平米)<input type="text" name = "price" value={{price_search}}>
             面积<input type="text" name = "area" value={{area_search}}>
             建筑时间(时间未知的为1000年)<input type="text" name = "time" value={{time_search}}>
-
+            小区均价比例<input type="text" name = "avg_price_gap" value={{avg_price_gap}}>
 
             <input type="submit" value="submit">
         </form>
@@ -34,6 +34,7 @@
         <h1> {{district_search}}</h1>
         <table border="1">
             <tr>
+
                 <th>title</th>
                 <th>total_price</th>
                 <th>price</th>
@@ -42,6 +43,9 @@
                 <th>community</th>
                 <th>neighbours</th>
                 <th>floor</th>
+                <th>community_avg_price</th>
+                <th>url</th>
+
             </tr>
              {% for i in index %}
              <tr>
@@ -53,6 +57,9 @@
                  <td>{{community[i]}}</td>
                  <td>{{neighbours[i]}}</td>
                  <td>{{floor[i]}}</td>
+                 <td>{{community_avg_price[i]}}</td>
+                 <td>{{url[i]}}</td>
+
              </tr>
              {% endfor %}
 

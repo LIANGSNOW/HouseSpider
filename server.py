@@ -65,6 +65,7 @@ def search_page():
         price_search = request.form.get('price')
         area_search = request.form.get('area')
         time_search = request.form.get('time')
+        avg_price_gap = request.form.get('avg_price_gap')
 
         #this part for pandas process for the data
         if total_price_search!='':
@@ -75,7 +76,10 @@ def search_page():
             data = data[data['area'] >= float(area_search)]
         if time_search != '':
             data = data[data['time'] >= int(time_search)]
+        if avg_price_gap != '':
+            data = data[data['price'] <= data['community_avg_price'] * float(avg_price_gap)]
 
+        print(data.shape)
         #this part for display
         data_json = (data.to_dict())
         # this part just for index
@@ -89,11 +93,14 @@ def search_page():
         community = data_json['community']
         neighbours = data_json['neighbours']
         floor = data_json['floor']
-
+        url = data_json['url']
+        community_avg_price =  data_json['community_avg_price']
         return render_template("district.html", index=index, title=title, total_price=total_price,
                                price=price, area=area, time=time, community=community, neighbours=neighbours,
-                               floor=floor ,total_price_search=total_price_search,price_search=price_search,
-                               area_search=area_search,time_search=time_search,district_search = district)
+                               floor=floor ,url =url,community_avg_price=community_avg_price,
+                               total_price_search=total_price_search,price_search=price_search,
+                               area_search=area_search,time_search=time_search,district_search = district,
+                               avg_price_gap=avg_price_gap)
 
         # return redirect(url_for('detail_page'))
         # return detail_page(data)
