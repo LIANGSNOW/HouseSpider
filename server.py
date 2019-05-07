@@ -66,6 +66,8 @@ def search_page():
         area_search = request.form.get('area')
         time_search = request.form.get('time')
         avg_price_gap = request.form.get('avg_price_gap')
+        neighbours_search = request.form.get('neighbours')
+        floor_search = request.form.get('floor')
 
         #this part for pandas process for the data
         if total_price_search!='':
@@ -78,6 +80,10 @@ def search_page():
             data = data[data['time'] >= int(time_search)]
         if avg_price_gap != '':
             data = data[data['price'] <= data['community_avg_price'] * float(avg_price_gap)]
+        if neighbours_search != '':
+            data = data[data['neighbours'] == neighbours_search]
+        if floor_search!='all':
+            data = data[data['floor'].str.contains(floor_search)]
 
         print(data.shape)
         #this part for display
@@ -100,7 +106,7 @@ def search_page():
                                floor=floor ,url =url,community_avg_price=community_avg_price,
                                total_price_search=total_price_search,price_search=price_search,
                                area_search=area_search,time_search=time_search,district_search = district,
-                               avg_price_gap=avg_price_gap)
+                               avg_price_gap=avg_price_gap,neighbours_search=neighbours_search)
 
         # return redirect(url_for('detail_page'))
         # return detail_page(data)

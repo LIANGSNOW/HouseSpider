@@ -10,7 +10,7 @@
         搜索均为大于等于，不填则代表此条目的所有
         <form action="" enctype='multipart/form-data' method='POST'>
              <select name="district" >
-             <option value="baoshan">宝山</option>
+              <option value="baoshan">宝山</option>
               <option value="changning">长宁</option>
               <option value="huangpu">黄浦</option>
               <option value="jiading">嘉定</option>
@@ -24,8 +24,16 @@
             总价<input type="text" name = "total_price" value={{total_price_search}}>
             单价(万/平米)<input type="text" name = "price" value={{price_search}}>
             面积<input type="text" name = "area" value={{area_search}}>
-            建筑时间(时间未知的为1000年)<input type="text" name = "time" value={{time_search}}>
+            建筑时间<input type="text" name = "time" value={{time_search}}>
             小区均价比例<input type="text" name = "avg_price_gap" value={{avg_price_gap}}>
+            户型<input type="text" name = "neighbours" value="{{neighbours_search}}">
+            楼层
+            <select name="floor">
+                <option value="all">全部</option>
+                <option value="低">低</option>
+                <option value="中">中</option>
+                <option value="高">高</option>
+            </select>
 
             <input type="submit" value="submit">
         </form>
